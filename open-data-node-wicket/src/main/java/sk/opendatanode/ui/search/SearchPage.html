@@ -7,10 +7,15 @@
 <title>Open data node</title>
 </head>
 <body>
-	<h1>Open data node<br/></h1>
-	<div wicket:id="searchPage">search form</div>
-	<div wicket:id="searchResultPage">result links <br/><br/></div>
-	<div wicket:id="errorLog"></div>
+	<wicket:panel>
+		<form wicket:id="searchForm">
+			<div>
+				<input wicket:id="query" type="text" />
+				<input type="submit" value="Search" />
+			</div>
+		</form>
+		<br/>
+	</wicket:panel>
 </body>
 </html>
 

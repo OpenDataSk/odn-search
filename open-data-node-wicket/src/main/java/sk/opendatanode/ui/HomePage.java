@@ -1,22 +1,24 @@
 package sk.opendatanode.ui;
 
-import java.util.Set;
+import java.io.IOException;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.util.value.ValueMap;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.model.PropertyModel;
+
+import sk.opendatanode.ui.search.SearchPage;
+import sk.opendatanode.ui.search.SearchResultPage;
+
 
 /**
  * Homepage
  */
 public class HomePage extends WebPage {
-
-	private static final long serialVersionUID = 1L;
-
+    @SuppressWarnings("unused")
+    private String errorLog = "";
+    
     /**
 	 * Constructor that is invoked when page is invoked without a session.
 	 * 
@@ -24,24 +26,26 @@ public class HomePage extends WebPage {
 	 *            Page parameters
 	 */
     public HomePage(final PageParameters parameters) {
-        add(new SearchForm("searchForm"));
-        add(new Label("results", "tu budu vysledky"));
+        final String query = parameters.getString("q", "").trim();
+        final int page = parameters.getInt("page", 1);
+        
+        SearchPage sp = new SearchPage("searchPage", query);
+        SearchResultPage srp = new SearchResultPage("searchResultPage", query, page);
+        
+        add(sp);
+        add(srp);
+        
+        add(new Label("errorLog", new PropertyModel<String>(this, "errorLog")));
+        
+        try {
+            srp.search(query, page);
+        } catch (IOException e) {
+            errorLog = "Error: "+e.getMessage();
+            e.printStackTrace();
+        } catch (SolrServerException e) {
+            errorLog = "Sorl error: "+e.getMessage();
+            e.printStackTrace();
+        }
     }
     
-    public final class SearchForm extends Form {
-        private static final long serialVersionUID = 3514316289841517621L;
-
-        public SearchForm(String id) {
-            super(id, new CompoundPropertyModel(new ValueMap()));
-            add(new TextField("query").setType(String.class));
-        }
-        
-        @Override
-        protected void onSubmit() {
-            ValueMap values = (ValueMap) getModelObject();
-            
-            String zadanaQuery = (String) values.get("query");
-        }
-        
-    }
 }

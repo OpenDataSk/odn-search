@@ -1,5 +1,6 @@
 package sk.opendatanode.ui;
 
+import org.apache.wicket.Page;
 import org.apache.wicket.protocol.http.WebApplication;
 
 /**
@@ -18,8 +19,7 @@ public class WicketApplication extends WebApplication
 	/**
 	 * @see wicket.Application#getHomePage()
 	 */
-	public Class getHomePage()
-	{
+	public Class<? extends Page> getHomePage() {
 		return HomePage.class;
 	}
 
