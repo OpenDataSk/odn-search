@@ -7,6 +7,7 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.util.value.ValueMap;
 
 import sk.opendatanode.ui.search.SearchPage;
 import sk.opendatanode.ui.search.SearchResultPage;
@@ -22,15 +23,17 @@ public class HomePage extends WebPage {
     /**
 	 * Constructor that is invoked when page is invoked without a session.
 	 * 
-	 * @param parameters
+	 * @param params
 	 *            Page parameters
 	 */
-    public HomePage(final PageParameters parameters) {
-        final String query = parameters.getString("q", "").trim();
-        final int page = parameters.getInt("page", 1);
+    public HomePage(PageParameters parameters) {
+//        final String query = parameters.getString("q", "").trim();
+//        final int page = parameters.getInt("page", 1);
+//        final String type = parameters.getString("type","1");
+        ValueMap params = new ValueMap(parameters);
         
-        SearchPage sp = new SearchPage("searchPage", query);
-        SearchResultPage srp = new SearchResultPage("searchResultPage", query, page);
+        SearchPage sp = new SearchPage("searchPage", params);
+        SearchResultPage srp = new SearchResultPage("searchResultPage", params);
         
         add(sp);
         add(srp);
@@ -38,7 +41,7 @@ public class HomePage extends WebPage {
         add(new Label("errorLog", new PropertyModel<String>(this, "errorLog")));
         
         try {
-            srp.search(query, page);
+            srp.search(params);
         } catch (IOException e) {
             errorLog = "Error: "+e.getMessage();
             e.printStackTrace();

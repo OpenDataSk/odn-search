@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.wicket.Component;
+import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.util.value.ValueMap;
 
 import sk.opendatanode.ui.HomePage;
 
@@ -17,19 +19,19 @@ public class PagingNavigator extends Panel {
     private static final long serialVersionUID = -7379172012971859112L;
     private static final int MARGIN_SIZE = 4;
     
-    private String query;
+    private ValueMap parameters;
     private List<Integer> pages = new ArrayList<Integer>(20);
     
     private int aktPage = 1;
 
-    public PagingNavigator(String id, String query) {
+    public PagingNavigator(String id, ValueMap parameters) {
         super(id);
-        this.query = query;
+        this.parameters = parameters;
         
-        add(getHref("first", 1, false));
-        add(getHref("prev", 1, false));
-        add(getHref("next", 1, false));
-        add(getHref("last", 1, false));
+        add(getLink("first", 1, false));
+        add(getLink("prev", 1, false));
+        add(getLink("next", 1, false));
+        add(getLink("last", 1, false));
         
         // add ostatnte stranky
         generatePagesList(0, 1);
@@ -52,15 +54,19 @@ public class PagingNavigator extends Panel {
         }
     }
     
-    private Component getHref(String id, int page, boolean enabled) {
+    private Component getLink(String id, int page, boolean enabled) {
         return getHref(id, page, null, null).setEnabled(enabled);
     }
 
     private Component getHref(String id, int page, String idLabel, String label) {
+        PageParameters params = new PageParameters(parameters);
+        params.put("page", page);
         
-        BookmarkablePageLink<HomePage> hp = new BookmarkablePageLink<HomePage>(id, HomePage.class);
-        hp.setParameter("q", query);
-        hp.setParameter("page", page);
+        BookmarkablePageLink<HomePage> hp = new BookmarkablePageLink<HomePage>(id,
+                HomePage.class,
+                params);
+//        hp.setParameter("q", query);
+//        hp.setParameter("page", page);
         if(idLabel != null)
             hp.add(new Label(idLabel, label));
         return hp;
@@ -95,10 +101,10 @@ public class PagingNavigator extends Panel {
         boolean isAktPageFirst = aktPage == 1;
         boolean isAktPageLast = aktPage == pagesNumber;
         
-        replace(getHref("first", 1, !isAktPageFirst));
-        replace(getHref("prev", isAktPageFirst ? 1 : aktPage-1, !isAktPageFirst));
-        replace(getHref("next", isAktPageLast ? pagesNumber : aktPage+1, !isAktPageLast));
-        replace(getHref("last", pagesNumber, !isAktPageLast));
+        replace(getLink("first", 1, !isAktPageFirst));
+        replace(getLink("prev", isAktPageFirst ? 1 : aktPage-1, !isAktPageFirst));
+        replace(getLink("next", isAktPageLast ? pagesNumber : aktPage+1, !isAktPageLast));
+        replace(getLink("last", pagesNumber, !isAktPageLast));
         
         generatePagesList(pagesNumber, aktPage);
     }

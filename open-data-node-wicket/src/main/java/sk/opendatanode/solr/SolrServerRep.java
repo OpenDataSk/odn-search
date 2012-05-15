@@ -1,12 +1,14 @@
 package sk.opendatanode.solr;
 
 import java.io.IOException;
+import java.util.Map.Entry;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 
 public class SolrServerRep {
@@ -34,11 +36,27 @@ public class SolrServerRep {
     public SolrDocumentList sendQuery(String query, int page) throws SolrServerException {
         SolrQuery solrQuery = new SolrQuery(query);
         solrQuery.set("defType", "dismax");
-        
+                
         solrQuery.setStart(page * RESULTS_PER_PAGE);
         solrQuery.setRows(RESULTS_PER_PAGE);
         
         QueryResponse resp = server.query(solrQuery);
         return resp.getResults();
+    }
+    
+    public static void main(String[] args) throws SolrServerException, IOException {
+        SolrDocumentList list = getInstance().sendQuery("operacny", 0);
+        
+        System.out.println("FOUND: "+list.getNumFound());
+        for (SolrDocument doc : list) {
+            
+            if("ORGANIZATION_RECORD".equals(doc.get("type")))
+                continue;
+            
+            for (Entry<String, Object> entry : doc) {
+                System.out.println(entry.getKey()+": "+entry.getValue());
+            }
+            System.out.println("======");
+        }
     }
 }

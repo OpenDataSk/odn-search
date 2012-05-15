@@ -12,6 +12,7 @@ import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.util.value.ValueMap;
 
 import sk.opendatanode.solr.SolrServerRep;
 import sk.opendatanode.ui.search.paging.PagingNavigator;
@@ -23,26 +24,28 @@ public class SearchResultPage extends Panel {
     private PagingNavigator navigator = null;
     private PageableResultListView resultView = null;
 
-    public SearchResultPage(String id, String query, int page) {
+    public SearchResultPage(String id, ValueMap parameters) {
         super(id);
+        final int page = parameters.getInt("page", 1);
         
         resultView  = new PageableResultListView("resultList",
                 resultList,
                 page);
         add(resultView);
         
-        navigator = new PagingNavigator("navigator", query);
+        navigator = new PagingNavigator("navigator", parameters);
         add(navigator);
     }
-    
-    public void search(String query, int page) throws IOException, SolrServerException {
-        if(query == null || query.isEmpty())
+
+    public void search(ValueMap parameters) throws IOException, SolrServerException {
+//      final String type = parameters.getString("type","1");
+        final String query = parameters.getString("q", "").trim();
+        final int page = parameters.getInt("page", 1);
+        
+        if(query.isEmpty())
             return;
-        SolrServerRep rep = null;
-        
-        rep = SolrServerRep.getInstance();
-        
-        SolrDocumentList respList = rep.sendQuery(query, page-1);
+                
+        SolrDocumentList respList = SolrServerRep.getInstance().sendQuery(query, page-1);
         
         int pagesNumber =(int) (respList.getNumFound() / SolrServerRep.RESULTS_PER_PAGE);
         if((respList.getNumFound() % SolrServerRep.RESULTS_PER_PAGE) != 0)
