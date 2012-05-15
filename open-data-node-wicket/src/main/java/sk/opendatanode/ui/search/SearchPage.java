@@ -77,7 +77,6 @@ public class SearchPage extends Panel{
         
         @Override
         protected void onSubmit() {
-            // chceme bez parametra page, aby nas to po submite hodilo na 1. strankus
             PageParameters params = new PageParameters();
             
             if (query != null && !query.isEmpty())
