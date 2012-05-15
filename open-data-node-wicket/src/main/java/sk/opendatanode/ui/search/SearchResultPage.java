@@ -15,6 +15,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.util.value.ValueMap;
 
 import sk.opendatanode.solr.SolrServerRep;
+import sk.opendatanode.solr.SolrType;
 
 public class SearchResultPage extends Panel {
     
