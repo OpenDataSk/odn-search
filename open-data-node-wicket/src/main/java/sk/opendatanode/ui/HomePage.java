@@ -8,6 +8,8 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.util.value.ValueMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import sk.opendatanode.ui.search.SearchPage;
 import sk.opendatanode.ui.search.SearchResultPage;
@@ -17,8 +19,8 @@ import sk.opendatanode.ui.search.SearchResultPage;
  * Homepage
  */
 public class HomePage extends WebPage {
-    @SuppressWarnings("unused")
     private String errorLog = "";
+    private Logger logger = LoggerFactory.getLogger(HomePage.class);
     
     /**
 	 * Constructor that is invoked when page is invoked without a session.
@@ -27,9 +29,6 @@ public class HomePage extends WebPage {
 	 *            Page parameters
 	 */
     public HomePage(PageParameters parameters) {
-//        final String query = parameters.getString("q", "").trim();
-//        final int page = parameters.getInt("page", 1);
-//        final String type = parameters.getString("type","1");
         ValueMap params = new ValueMap(parameters);
         
         SearchPage sp = new SearchPage("searchPage", params);
@@ -43,12 +42,19 @@ public class HomePage extends WebPage {
         try {
             srp.search(params);
         } catch (IOException e) {
-            errorLog = "Error: "+e.getMessage();
-            e.printStackTrace();
+            logger.error("IOException error", e);
+            setErrorLog("Error: "+e.getMessage());
         } catch (SolrServerException e) {
-            errorLog = "Sorl error: "+e.getMessage();
-            e.printStackTrace();
+            logger.error("SolrServerException",e);
+            setErrorLog("Sorl error: "+e.getMessage());
         }
     }
     
+    public void setErrorLog(String errorLog) {
+        this.errorLog = errorLog;
+    }
+    
+    public String getErrorLog() {
+        return errorLog;
+    }
 }
