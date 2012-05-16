@@ -12,9 +12,11 @@ import org.apache.solr.common.SolrDocumentList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import sk.opendatanode.utils.SolrQueryHelper;
+
 public class SolrServerRep {
     private static final String SOLR_REPOSITORY = "http://ohio.in.eea.sk:8080/solr/"; // TODO z properties
-    private static final int MAX_RESULT_ROWS = 200;
+    private static final int MAX_RESULT_ROWS = 400;
     public final static int RESULTS_PER_PAGE = 20;
     private SolrServer server = null;
         
@@ -34,15 +36,16 @@ public class SolrServerRep {
         return instance;
     }
     
-    public SolrDocumentList sendQuery(String query) throws SolrServerException {
-        SolrQuery solrQuery = new SolrQuery(query);
-        solrQuery.set("defType", "dismax");
-                
-//        solrQuery.setStart(page * RESULTS_PER_PAGE);
-//        solrQuery.setRows(RESULTS_PER_PAGE);
+    public SolrDocumentList sendQuery(String query, String types) throws SolrServerException {
+        
+        SolrQuery solrQuery = SolrQueryHelper.setQuery(query,types);;
         solrQuery.setRows(MAX_RESULT_ROWS);
         
         QueryResponse resp = server.query(solrQuery);
         return resp.getResults();
+    }
+    
+    public static void main(String[] args) throws SolrServerException, IOException {
+        getInstance().sendQuery("nadacia", "24");
     }
 }

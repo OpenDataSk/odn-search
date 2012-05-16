@@ -28,12 +28,12 @@ public class SearchPage extends Panel{
         add(form);
         form.add(new TextField<String>("query", new PropertyModel<String>(this, "query")));
         
-//        addCheckbox(form, "all");
-//        addCheckbox(form, "organization");
-//        addCheckbox(form, "procurement");
-//        addCheckbox(form, "polParSpo");
-//        
-//        setCheckBoxes(params.getString("type","1"));
+        addCheckbox(form, "all");
+        addCheckbox(form, "organization");
+        addCheckbox(form, "procurement");
+        addCheckbox(form, "polParSpo");
+        
+        setCheckBoxes(params.getString("type","1"));
     }
 
     private void setCheckBoxes(String type) {
