@@ -53,7 +53,7 @@ public class SearchResultPage extends Panel {
 
     public void search(ValueMap parameters) throws IOException, SolrServerException {
         final String query = parameters.getString("q", "").trim();
-        final String types = parameters.getString("type","1").trim();
-        resultList.addAll(SolrServerRep.getInstance().sendQuery(query, types));
+        final String type = parameters.getString("type");
+        resultList.addAll(SolrServerRep.getInstance().sendQuery(query, type));
     }
 }

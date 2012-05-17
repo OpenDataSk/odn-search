@@ -36,16 +36,17 @@ public class SolrServerRep {
         return instance;
     }
     
-    public SolrDocumentList sendQuery(String query, String types) throws SolrServerException {
+    public SolrDocumentList sendQuery(String query, String type) throws SolrServerException {
         
-        SolrQuery solrQuery = SolrQueryHelper.setQuery(query,types);;
+        SolrQuery solrQuery = SolrQueryHelper.setQuery(query,type);;
         solrQuery.setRows(MAX_RESULT_ROWS);
         
         QueryResponse resp = server.query(solrQuery);
         return resp.getResults();
     }
     
-    public static void main(String[] args) throws SolrServerException, IOException {
-        getInstance().sendQuery("nadacia", "24");
+    public SolrDocumentList sendQuery(SolrQuery query) throws SolrServerException {
+        QueryResponse resp = server.query(query);
+        return resp.getResults();
     }
 }
