@@ -8,11 +8,14 @@
 </head>
 <body>
 	<wicket:panel>
+		<div id="resultListHeader">
+			<span wicket:id="resultCount">number</span>, max shown 400
+		</div>
 		<div wicket:id="resultList">
 			<span wicket:id="itemNumber">number</span>
 			<a wicket:id="itemUrl" href="#">name</a>
 		</div>
-		<br />
+		<hr />
 		<div wicket:id="navigator"></div>
 	</wicket:panel>
 </body>

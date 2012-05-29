@@ -1,17 +1,17 @@
 package sk.opendatanode.ui;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.util.value.ValueMap;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import sk.opendatanode.ui.search.SearchPage;
+import sk.opendatanode.ui.search.FacetSearchPage;
 import sk.opendatanode.ui.search.SearchResultPage;
 
 
@@ -19,6 +19,7 @@ import sk.opendatanode.ui.search.SearchResultPage;
  * Homepage
  */
 public class HomePage extends WebPage {
+    private static final long serialVersionUID = -3362496726021637053L;
     private String errorLog = "";
     private Logger logger = LoggerFactory.getLogger(HomePage.class);
     
@@ -29,18 +30,13 @@ public class HomePage extends WebPage {
 	 *            Page parameters
 	 */
     public HomePage(PageParameters parameters) {
-        ValueMap params = new ValueMap(parameters);
-        
-        SearchPage sp = new SearchPage("searchPage", params);
-        SearchResultPage srp = new SearchResultPage("searchResultPage", params);
-        
-        add(sp);
+
+        SearchResultPage srp = new SearchResultPage("searchResultPage");
         add(srp);
         
-        add(new Label("errorLog", new PropertyModel<String>(this, "errorLog")));
-        
+        Map<String, Integer> facetItems = null;
         try {
-            srp.search(params);
+            facetItems = srp.search(parameters);
         } catch (IOException e) {
             logger.error("IOException error", e);
             setErrorLog("Error: "+e.getMessage());
@@ -48,6 +44,12 @@ public class HomePage extends WebPage {
             logger.error("SolrServerException",e);
             setErrorLog("Sorl error: "+e.getMessage());
         }
+        
+        FacetSearchPage sp = new FacetSearchPage("searchPage", parameters, facetItems);
+        add(sp);
+        
+        add(new Label("errorLog", new PropertyModel<String>(this, "errorLog")));
+        
     }
     
     public void setErrorLog(String errorLog) {
