@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd"
+	xml:lang="en" lang="en">
+<head>
+<title>Open data node</title>
+</head>
+<body>
+	<wicket:panel>
+		<div class="left" >
+			<a wicket:id="first">
+				<img src="images/first_paginator.png" width="24" height="21" alt="&lt;&lt;" />
+			</a>
+		</div>
+		<div class="left">
+			<a wicket:id="prev">
+				<img src="images/left_paginator.png" width="24" height="21" alt="&lt;" />
+			</a>
+		</div>
+		<div wicket:id="navigation" class="common">
+			<a wicket:id="pageLink" href="#">
+				<span wicket:id="pageNumber">5</span>
+			</a>
+		</div>
+		<div class="right">
+			<a wicket:id="next">
+				<img src="images/right_paginator.png" width="24" height="21" alt="&gt;"/>
+			</a>
+		</div>
+		<div class="right">
+			<a wicket:id="last">
+				<img src="images/last_paginator.png" width="24" height="21" alt="&gt;&gt;"/>
+			</a>
+		</div>
+	</wicket:panel>
+</body>
+</html>

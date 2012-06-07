@@ -14,8 +14,7 @@ import sk.opendatanode.facet.FacetItem;
 import sk.opendatanode.ui.HomePage;
 
 public class FacetItemPanel extends Panel {
-
-    private static final long serialVersionUID = 8720052701547361670L;
+    private static final long serialVersionUID = 32353931182742617L;
     private List<FacetItem> facetItems = new ArrayList<FacetItem>();
     private PageParameters parameters = null;
 
@@ -23,14 +22,14 @@ public class FacetItemPanel extends Panel {
         super(id);
         
         this.parameters = parameters;
+        facetItems.addAll(facetItem);
         add(new FacetItemListView("facetItemList", facetItems));
         
-        facetItems.addAll(facetItem);
+        setRenderBodyOnly(true); // not rendering span
     }
 
     private class FacetItemListView extends ListView<FacetItem> {
-
-        private static final long serialVersionUID = -8448695059163993780L;
+        private static final long serialVersionUID = -7606331789314026088L;
 
         public FacetItemListView(String id, List<FacetItem> facetList) {
             super(id, facetList);
@@ -46,6 +45,7 @@ public class FacetItemPanel extends Panel {
             BookmarkablePageLink<HomePage> link = new BookmarkablePageLink<HomePage>("facetItemUrl",
                                                                                      HomePage.class,
                                                                                      params);
+            link.setEnabled(facetItem.getCount()!=0);
             link.add(new Label("facetItemValue", facetItem.getName()));
             item.add(link);
             item.add(new Label("count", " ("+facetItem.getCount()+")"));

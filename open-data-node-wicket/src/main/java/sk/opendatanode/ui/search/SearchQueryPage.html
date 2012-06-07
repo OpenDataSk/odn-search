@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd"
+	xml:lang="en" lang="en">
+<head>
+<title>Open data node</title>
+</head>
+<body>
+	<wicket:panel>
+		<form wicket:id="searchForm">
+			<div class="fl">
+				<input name="query" wicket:id="query" type="text" id="query" />
+			</div>
+			<div class="fl ml6">
+				<a href="#" class="select" wicket:id="selected">this will be replaced</a>
+				<ul class="select_list" id="timeframe_select">
+					<li id="all" wicket:id="all">this will be replaced</li>
+					<li id="org" wicket:id="org">this will be replaced</li>
+					<li id="obs" wicket:id="obs">this will be replaced</li>
+					<li id="spo" wicket:id="spo">this will be replaced</li>
+				</ul>
+				<select class="hidden" name="selected"><option wicket:id="defaultValue">
+					</option></select>
+				<!--<select class="select_list" wicket:id="datasets"></select>-->
+			</div>
+			<div class="fl ml6">
+				<input type="image" src="images/submit_button.png" alt="Hladat" />
+			</div>
+		</form>
+	</wicket:panel>
+</body>
+</html>

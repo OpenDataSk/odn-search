@@ -1,13 +1,14 @@
 package sk.opendatanode.utils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.util.DateUtil;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.util.string.StringValue;
@@ -16,6 +17,7 @@ import sk.opendatanode.facet.FacetFactory;
 import sk.opendatanode.facet.FacetInfo;
 import sk.opendatanode.facet.FacetItem;
 import sk.opendatanode.facet.FacetItemType;
+import sk.opendatanode.solr.SolrServerRep;
 import sk.opendatanode.solr.SolrType;
 
 public abstract class SolrQueryHelper {
@@ -30,52 +32,77 @@ public abstract class SolrQueryHelper {
      */
     public static void addFacetParameters(SolrQuery solrQuery, PageParameters parameters) {
         solrQuery.setFacet(true); // allowing facets
-        List<String> excludeTagsForDefault = new ArrayList<String>();
+//        List<String> excludeTagsForDefault = new ArrayList<String>();
+        
+        boolean all = hasTypeAll(parameters);
         
         // pridanie fitlrov pre konkretny type
         // TODO refactoring
-        if(hasType(SolrType.ORGANIZATION, parameters)) {
+        if(all || hasType(SolrType.ORGANIZATION, parameters)) {
             addFacetItemQuery(FacetItemType.LEGAL_FORM, solrQuery);
             addFacetItemQuery(FacetItemType.SEAT, solrQuery);
             addFacetItemQuery(FacetItemType.DATE_FROM, solrQuery);
             addFacetItemQuery(FacetItemType.DATE_TO, solrQuery);
-            excludeTagsForDefault.addAll(Arrays.asList(new String[] {"legal_form",
-                                                                     "seat",
-                                                                     "date_from",
-                                                                     "date_to"}));
-        } else if(hasType(SolrType.PROCUREMENT, parameters)) {
+//            excludeTagsForDefault.addAll(Arrays.asList(new String[] {"legal_form",
+//                                                                     "seat",
+//                                                                     "date_from",
+//                                                                     "date_to"}));
+        }
+        
+        if(all || hasType(SolrType.PROCUREMENT, parameters)) {
             addFacetItemQuery(FacetItemType.YEAR, solrQuery);
             addFacetItemQuery(FacetItemType.PRICE, solrQuery);
             addFacetItemQuery(FacetItemType.CURRENCY, solrQuery);
             addFacetItemQuery(FacetItemType.VAT, solrQuery);
-            excludeTagsForDefault.addAll(Arrays.asList(new String[] {"year",
-                                                                     "price",
-                                                                     "currency",
-                                                                     "vat_included"}));
-        } else if(hasType(SolrType.POLITICAL_PARTY_DONATION, parameters)) {
+//            excludeTagsForDefault.addAll(Arrays.asList(new String[] {"year",
+//                                                                     "price",
+//                                                                     "currency",
+//                                                                     "vat_included"}));
+        } 
+        
+        if(all || hasType(SolrType.POLITICAL_PARTY_DONATION, parameters)) {
             addFacetItemQuery(FacetItemType.PARTY, solrQuery);
             addFacetItemQuery(FacetItemType.VALUE, solrQuery);
             addFacetItemQuery(FacetItemType.YEAR, solrQuery);
-            excludeTagsForDefault.addAll(Arrays.asList(new String[] {"recipient_party",
-                                                                     "donation_value",
-                                                                     "year"}));
+//            excludeTagsForDefault.addAll(Arrays.asList(new String[] {"recipient_party",
+//                                                                     "donation_value",
+//                                                                     "year"}));
         }
         
         // pridame defaultne facet filtre (type)
-        List<FacetItem> list = FacetFactory.getDefaultFacetItemList();
-        for (FacetItem facetItem : list) {
-            String exTag = getExcludeTagForDefault(excludeTagsForDefault);
-            solrQuery.addFacetQuery(exTag+facetItem.getQuery());
-        }
+//        List<FacetItem> list = FacetFactory.getDefaultFacetItemList();
+//        for (FacetItem facetItem : list) {
+//            String exTag = getExcludeTagForDefault(excludeTagsForDefault);
+//            solrQuery.addFacetQuery(exTag+facetItem.getQuery());
+//        }
     }
 
-    private static String getExcludeTagForDefault(List<String> excludeTagsForDefault) {
-        String tag = DEF_EX_TAG;
-        for (String exTagToAdd : excludeTagsForDefault) {
-            tag = tag.replace("}", ","+exTagToAdd+"}");
+    /**
+     * 
+     * @param parameters
+     * @return {@code true} if has NOT secific type else {@code false}
+     */
+    public static boolean hasTypeAll(PageParameters parameters) {
+        List<StringValue> values = parameters.getValues("fq");
+        if (values == null || values.isEmpty()) {
+            return true;
         }
-        return tag;
+        
+        for (StringValue stringValue : values) {
+            if(stringValue.toString().startsWith("type:"))
+                return false;
+        }
+        
+        return true;
     }
+
+//    private static String getExcludeTagForDefault(List<String> excludeTagsForDefault) {
+//        String tag = DEF_EX_TAG;
+//        for (String exTagToAdd : excludeTagsForDefault) {
+//            tag = tag.replace("}", ","+exTagToAdd+"}");
+//        }
+//        return tag;
+//    }
 
 
     /**
@@ -135,5 +162,71 @@ public abstract class SolrQueryHelper {
             return false;
         String typeSkratka = "type:"+type.getTypeString().substring(0, 3)+"*";
         return params.getValues("fq").contains(StringValue.valueOf(typeSkratka));
+    }
+
+    public static QueryResponse search(PageParameters parameters) throws SolrServerException, IOException {
+        final String q = parameters.get("q").toString("").trim();
+        
+        SolrQuery solrQuery = new SolrQuery();
+        
+        if(q.isEmpty()) {
+            // chceme mat prazdny result, posielame kvoli facet informaciam
+            solrQuery.setQuery("*:*");
+            solrQuery.setRows(0);
+        } else {
+            solrQuery.setQuery(q);
+            solrQuery.setRows(SolrServerRep.MAX_RESULT_ROWS);            
+        }
+        solrQuery.set("defType", "edismax");
+        setQueryFields(solrQuery);
+        
+        // pridame filtre z parametrov pre stranku do parametrov pre solr query
+        addFilters(solrQuery, parameters);
+        
+        SolrQueryHelper.addFacetParameters(solrQuery, parameters);
+        
+        // odoslanie
+        return SolrServerRep.getInstance().sendQuery(solrQuery);
+    }
+    
+    private static void setQueryFields(SolrQuery solrQuery) {
+        solrQuery.set("qf", "name^3 " +
+                      "legal_form^0.5 " +
+                      "seat " +
+                      "ico^2 " +
+                      "date_from " +
+                      "date_to " +
+                      "donor_name^2 " +
+                      "donor_surname^2 " +
+                      "donor_company^2 " +
+                      "donor_ico " +
+                      "currency^0.5 " +
+                      "donor_address " +
+                      "donor_psc " +
+                      "donor_city " +
+                      "recipient_party^0.75 " +
+                      "year " +
+                      "accept_date " +
+                      "note^0.5 " +
+                      "procurement_subject " +
+                      "customer_ico " +
+                      "supplier_ico");
+    }
+
+    private static void addFilters(SolrQuery solrQuery, PageParameters parameters) {
+        for (StringValue query : parameters.getValues("fq")) {
+            solrQuery.addFilterQuery(getTag(query.toString())+query.toString());   
+        }
+    }
+
+    /**
+     * adding tags for correct displaying of facet count
+     * @param query
+     * @return
+     */
+    private static String getTag(String query) {
+        return query.startsWith("type:")
+                ? SolrQueryHelper.DEF_TAG
+                : SolrQueryHelper.DEF_TAG.replace("type", FacetItem.getQueryFieldName(query));
     }
 }

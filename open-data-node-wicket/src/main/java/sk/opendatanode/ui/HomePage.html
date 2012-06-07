@@ -2,15 +2,34 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd"
-	xml:lang="en" lang="en">
+	lang="sk-SK">
 <head>
-<title>Open data node</title>
+	<meta charset="UTF-8" />
+	<title>Open data node</title>
+	<link rel="stylesheet" href="css/opendata.css" type="text/css" />
+	<script type="text/javascript" src="js/jquery1-7-2.js"></script>
+  	<script type="text/javascript" src="js/opendata.js"></script>
+  	<style type="text/css">
+  		body { background-color: white; }
+  		#header, #footer2 { background-color: #eef0f2; }
+  	</style>
 </head>
 <body>
-	<h1>Open data node<br/></h1>
-	<div wicket:id="searchPage">search form</div>
-	<div wicket:id="searchResultPage">result links</div>
-	<div wicket:id="errorLog"></div>
+	<div id="header">
+		<div class="fl">
+			<a href="">
+				<img src="images/logo_small.png" width="211" height="77" alt="OpenData search" />
+			</a>
+		</div>
+		<div class="fl" id="searchbar2" wicket:id="searchPage">search form</div>
+		<div class="cb"></div>
+	</div>
+	<div id="body">
+		<div wicket:id="searchResultPage">result links</div>
+	</div>
+	<div id="footer2">
+    	<div>&copy; 2012 OZ Utopia</div>
+  	</div>
 </body>
 </html>
 
