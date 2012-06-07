@@ -14,7 +14,7 @@ img             { border: 0; }
 #searchbar2     { background-image: url('../images/search_bg.png'); height: 69px; width: 626px; margin-left: 73px; margin-top: 4px;}
 #header         { padding-top: 20px; padding-left: 31px; padding-bottom: 20px; }
 #footer         { margin-top: 197px; font-size: 12px; color: #777777; }
-#footer2        { width: 100%; font-size: 12px; color: #777777; position: absolute; bottom: 0;} /* position: absolute; bottom: 0; */
+#footer2        { width: 100%; font-size: 12px; color: #777777;} /* position: absolute; bottom: 0; */
 #footer2 div    { padding-left: 31px;padding-top: 15px; padding-bottom: 15px; }
 #searchbar form { padding-left: 15px; padding-top: 15px; }
 #searchbar2 form { float: left; margin-top: 15px; margin-left: 15px; }
