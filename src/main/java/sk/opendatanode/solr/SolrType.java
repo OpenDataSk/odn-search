@@ -22,13 +22,13 @@ public enum SolrType {
     public String getReadableString() {
         switch (this) {
             case ORGANIZATION:
-                return "Organiz·cie";
+                return "Organiz√°cie";
             case PROCUREMENT:
-                return "Obstar·vanie";
+                return "Obstar√°vanie";
             case POLITICAL_PARTY_DONATION:
-                return "Sponzori politick˝ch str·n";
+                return "Sponzori politick√Ωch str√°n";
             default:
-                return "Prehladaù vöetky datasety";
+                return "Prehlada≈• v≈°etky datasety";
         }
     }
     

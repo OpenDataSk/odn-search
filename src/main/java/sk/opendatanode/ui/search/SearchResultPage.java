@@ -27,7 +27,7 @@ public class SearchResultPage extends Panel {
         resultList.addAll(response.getResults());
         
         add(new FacetPanel("facet", parameters, response.getFacetQuery()));
-        add(new Label("searchHeader", "V›SLEDKY VYHºAD¡VANIA"));
+        add(new Label("searchHeader", "V√ùSLEDKY VYHƒΩAD√ÅVANIA"));
         
         MyPageableListView listView = new MyPageableListView("resultList", resultList, SolrServerRep.RESULTS_PER_PAGE);
         add(listView);
