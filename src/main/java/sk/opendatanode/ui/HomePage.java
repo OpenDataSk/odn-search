@@ -27,7 +27,7 @@ public class HomePage extends WebPage {
 	 * @param params
 	 *            Page parameters
 	 */
-    public HomePage(PageParameters parameters) {
+    public HomePage(final PageParameters parameters) {
 
         SearchQueryPage sp = new SearchQueryPage("searchPage", parameters);
         add(sp);
