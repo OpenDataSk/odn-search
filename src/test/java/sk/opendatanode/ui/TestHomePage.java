@@ -2,12 +2,14 @@ package sk.opendatanode.ui;
 
 import junit.framework.TestCase;
 import org.apache.wicket.util.tester.WicketTester;
+import org.junit.Ignore;
 
 import sk.opendatanode.ui.HomePage;
 
 /**
  * Simple test using the WicketTester
  */
+@Ignore
 public class TestHomePage extends TestCase
 {
 	private WicketTester tester;
