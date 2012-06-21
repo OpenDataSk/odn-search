@@ -31,7 +31,7 @@ public enum FacetItemType {
     PRICE,
     CURRENCY,
     VAT,
-    // political party donation = sponzori politick�ch str�n
+    // political party donation = sponzori politickďż˝ch strďż˝n
     PARTY,
     VALUE;
     // YEAR; ten je spolocny s obstaravanim
