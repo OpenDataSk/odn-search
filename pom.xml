@@ -9,7 +9,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<!-- TODO project name  -->
 	<name>Open Data Node</name>
-	<description></description>
+	<description>Proof-of-concept implementation of full text search GUI for Open Data Node.</description>
 
 	<!-- TODO
 		<organization>
@@ -133,4 +133,9 @@
 		<slf4j.version>1.6.1</slf4j.version>
 	</properties>
 
+	<url>https://github.com/OpenDataSk/odn-search</url>
+	<organization>
+		<url>http://utopia.sk/</url>
+		<name>Utopia</name>
+	</organization>
 </project>
