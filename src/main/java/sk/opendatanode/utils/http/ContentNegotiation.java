@@ -20,6 +20,12 @@ public class ContentNegotiation {
         return matchContent(fillContentTree(tokens), fillContentTree(avalContentTypes), content);
     }
 
+    /**
+     * Fills tree structure with data from list
+     * 
+     * @param contentTypes list of available content types
+     * @return tree object
+     */
     private static ContentTree fillContentTree(ArrayList<ContentTypes> contentTypes) {
         String[] tokens = new String[contentTypes.size()];
 
@@ -30,6 +36,12 @@ public class ContentNegotiation {
         return fillContentTree(tokens);
     }
 
+    /**
+     * Fills tree structure with data from tokens
+     * 
+     * @param tokens input data
+     * @return tree object
+     */
     private static ContentTree fillContentTree(String[] tokens) {
         ContentTree contentTree = new ContentTree();
 
@@ -74,7 +86,7 @@ public class ContentNegotiation {
         return contentTree;
     }
 
-    /*
+    /**
      * Matches requested content with available
      */
     private static ContentTypes matchContent(ContentTree contentTree, ContentTree avalContentTypes, String content) {
