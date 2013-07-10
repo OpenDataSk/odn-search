@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrDocument;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.EmptyPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.request.cycle.RequestCycle;
@@ -23,12 +24,10 @@ import sk.opendatanode.utils.http.ContentTypes;
 
 import com.google.gson.Gson;
 
-//TODO fix adding of unwanted parameters to page request
-
 public class ResultDocumentPage extends ContentNegotiablePage {
 
     private static final long serialVersionUID = 1L;
-    private Logger logger = LoggerFactory.getLogger(ResultDocumentPage.class);
+    private Logger logger;
 
     @Override
     public ArrayList<ContentTypes> defineAvailableContent(ArrayList<ContentTypes> contentTypes) {
@@ -40,8 +39,12 @@ public class ResultDocumentPage extends ContentNegotiablePage {
     @Override
     public void generateContent(ContentTypes contentType) {
 
+        logger = LoggerFactory.getLogger(ResultDocumentPage.class);
+
+        // Search panel
         add(new SearchQueryPage("searchPage", getPageParameters()));
 
+        // param represents id for search defined in URL
         String param = "";
         String url = ((WebRequest) RequestCycle.get().getRequest()).getUrl().toString();
         if (url.startsWith("item/")) {
@@ -51,47 +54,53 @@ public class ResultDocumentPage extends ContentNegotiablePage {
                 param = url.substring("item/".length());
             }
         }
-        
-        System.out.println("Param [" + param + "]");
 
+        // Default value for no results
         Panel resultPanel = new EmptyPanel("resultPanel");
+        Label messageLabel = new Label("messageLabel", "");
 
-        try {
-            List<SolrDocument> resultList = SolrServerRep.getInstance().sendQuery(new SolrQuery("id:" + param))
-                    .getResults();
+        if ("".equals(param)) {
+            messageLabel = new Label("messageLabel", "No results was found");
+        } else
+            try {
+                // Solr request to db
+                List<SolrDocument> resultList = SolrServerRep.getInstance().sendQuery(new SolrQuery("id:" + param))
+                        .getResults();
 
-            switch (contentType) {
-                case HTML:
-                    switch (resultList.size()) {
-                        case 0:
-                            logger.info("No results for id " + param);
-                            // TODO handle no results
-                            break;
-                        case 1:
-                            resultPanel = new GenericResultPanel("resultPanel", resultList.get(0));
-                            break;
-                        default:
-                            logger.info("Multiple results for id " + param);
-                            // TODO handle multiple results - should not happen
-                    }
-                    break;
-                case JSON:
-                    Gson gson = new Gson();
-                    RequestCycle.get().scheduleRequestHandlerAfterCurrent(
-                            (new TextRequestHandler(ContentTypes.JSON.getLabel(), "utf-8", gson.toJson(resultList))));
-                    break;
-                default:
-                    // Unspecified content
-                    throw new AbortWithHttpErrorCodeException(406);
+                switch (contentType) {
+                    case HTML: // render as HTML
+                        switch (resultList.size()) { // behave according to result count
+                            case 0:
+                                logger.info("No results for id " + param);
+                                messageLabel = new Label("messageLabel", "No results was found");
+                                break;
+                            case 1:
+                                resultPanel = new GenericResultPanel("resultPanel", resultList.get(0));
+                                break;
+                            default:
+                                logger.info("Multiple results for id " + param);
+                                messageLabel = new Label("messageLabel",
+                                        "Error: multiple results found for specified id");
+                        }
+                        break;
+                    case JSON: // render as JSON
+                        Gson gson = new Gson();
+                        RequestCycle.get()
+                                .scheduleRequestHandlerAfterCurrent(
+                                        (new TextRequestHandler(ContentTypes.JSON.getLabel(), "utf-8", gson
+                                                .toJson(resultList))));
+                        break;
+                    default:
+                        // Unspecified content
+                        throw new AbortWithHttpErrorCodeException(406);
+                }
+            } catch (SolrServerException e) {
+                logger.error("SolrServerException", e);
+            } catch (IOException e) {
+                logger.error("IOException error", e);
             }
-        } catch (SolrServerException e) {
-            logger.error("SolrServerException", e);
-        } catch (IOException e) {
-            logger.error("IOException error", e);
-        }
 
         add(resultPanel);
-
+        add(messageLabel);
     }
-
 }

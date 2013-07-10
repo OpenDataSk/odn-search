@@ -21,6 +21,7 @@ public class GenericResultPanel extends Panel {
     public GenericResultPanel(String id, SolrDocument solr) {
         super(id);
 
+        //Creates empty list view
         ListView<String> listView = new ListView<String>("listView1") {
 
             private static final long serialVersionUID = 1L;
@@ -31,9 +32,11 @@ public class GenericResultPanel extends Panel {
             }
         };
 
+        //Parses solr document to map
         final Map<String, Object> map = SolrFactory.solrToMap(solr);
 
         if (map != null) {
+            //fill list view with data
             listView = new ListView<String>("listView1", new ArrayList<String>(map.keySet())) {
 
                 private static final long serialVersionUID = 1L;
