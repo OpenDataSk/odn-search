@@ -15,16 +15,24 @@ import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
+import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.ExternalLink;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PageableListView;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.protocol.http.RequestUtils;
+import org.apache.wicket.protocol.http.servlet.ServletWebRequest;
+import org.apache.wicket.request.cycle.RequestCycle;
+import org.apache.wicket.request.http.WebRequest;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import sk.opendatanode.solr.SolrServerRep;
 import sk.opendatanode.solr.SolrType;
+import sk.opendatanode.ui.results.ResultDocumentPage;
 import sk.opendatanode.ui.search.facet.FacetPanel;
+import sk.opendatanode.utils.http.ContentNegotiablePage;
 
 public class SearchResultPage extends Panel {
 
@@ -59,7 +67,8 @@ public class SearchResultPage extends Panel {
             int index = item.getIndex() + 1;
 
             item.add(new Label("itemNumber", index + ". "));
-            item.add(new ExternalLink("itemUrl", "http://localhost:8080/item/" + solrResultItem.get("id"),
+            
+            item.add(new ExternalLink("itemUrl", "item/" + solrResultItem.get("id"),
             getLabel(solrResultItem)));          
 //            item.add(new ExternalLink("itemUrl", "http://www.opendata.sk/item/" + solrResultItem.get("id"),
 //                    getLabel(solrResultItem)));
