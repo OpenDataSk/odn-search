@@ -15,33 +15,28 @@ import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
-import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.ExternalLink;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PageableListView;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.protocol.http.RequestUtils;
-import org.apache.wicket.protocol.http.servlet.ServletWebRequest;
-import org.apache.wicket.request.cycle.RequestCycle;
-import org.apache.wicket.request.http.WebRequest;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.request.mapper.parameter.PageParameters.NamedPair;
 
 import sk.opendatanode.solr.SolrServerRep;
 import sk.opendatanode.solr.SolrType;
-import sk.opendatanode.ui.results.ResultDocumentPage;
 import sk.opendatanode.ui.search.facet.FacetPanel;
-import sk.opendatanode.utils.http.ContentNegotiablePage;
 
 public class SearchResultPage extends Panel {
 
     private static final long serialVersionUID = 1965617550606209510L;
     private List<SolrDocument> resultList = new ArrayList<SolrDocument>();
-
+    private PageParameters parameters;
+    
     public SearchResultPage(String id, PageParameters parameters, QueryResponse response) {
         super(id);
 
+        this.parameters = parameters;       
         resultList.addAll(response.getResults());
         
         add(new FacetPanel("facet", parameters, response.getFacetQuery()));
@@ -68,7 +63,7 @@ public class SearchResultPage extends Panel {
 
             item.add(new Label("itemNumber", index + ". "));
             
-            item.add(new ExternalLink("itemUrl", "item/" + solrResultItem.get("id"),
+            item.add(new ExternalLink("itemUrl", "item/" + solrResultItem.get("id") + buildLinkParameters(),
             getLabel(solrResultItem)));          
 //            item.add(new ExternalLink("itemUrl", "http://www.opendata.sk/item/" + solrResultItem.get("id"),
 //                    getLabel(solrResultItem)));
@@ -88,6 +83,22 @@ public class SearchResultPage extends Panel {
                         : solrResultItem.get("donor_name") + " " + solrResultItem.get("donor_surname");
             }
             return null;
+        }
+        
+        /**
+         * Builds query part of url from object representation of parameters
+         * @return url query parameters
+         */
+        private String buildLinkParameters() {
+            StringBuilder result = new StringBuilder("?");
+            
+            for (NamedPair parameter : parameters.getAllNamed()) {
+                result.append(parameter.getKey()).append("=").append(parameter.getValue()).append("&");
+            }
+            result.deleteCharAt(result.length() - 1);
+            
+            System.out.println("Search params: " + result.toString());
+            return result.toString();
         }
 
     }

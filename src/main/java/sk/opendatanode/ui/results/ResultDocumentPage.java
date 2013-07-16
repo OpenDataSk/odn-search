@@ -8,12 +8,15 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrDocument;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.panel.EmptyPanel;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.request.IRequestParameters;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.handler.TextRequestHandler;
 import org.apache.wicket.request.http.WebRequest;
 import org.apache.wicket.request.http.flow.AbortWithHttpErrorCodeException;
+import org.apache.wicket.util.string.StringValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +31,7 @@ public class ResultDocumentPage extends ContentNegotiablePage {
 
     private static final long serialVersionUID = 1L;
     private Logger logger;
-
+    
     @Override
     public ArrayList<ContentTypes> defineAvailableContent(ArrayList<ContentTypes> contentTypes) {
         contentTypes.add(ContentTypes.JSON);
@@ -47,14 +50,17 @@ public class ResultDocumentPage extends ContentNegotiablePage {
         // param represents id for search defined in URL
         String param = "";
         String url = ((WebRequest) RequestCycle.get().getRequest()).getUrl().toString();
+        
         if (url.startsWith("item/")) {
-            if (url.contains("?")) {
-                param = url.substring("item/".length(), url.indexOf("?"));
+            int paramIndex = url.indexOf("?");
+            if (paramIndex != -1) {
+                param = url.substring("item/".length(), paramIndex);
+                
             } else {
                 param = url.substring("item/".length());
             }
         }
-
+        
         // Default value for no results
         Panel resultPanel = new EmptyPanel("resultPanel");
         Label messageLabel = new Label("messageLabel", "");
@@ -102,5 +108,25 @@ public class ResultDocumentPage extends ContentNegotiablePage {
 
         add(resultPanel);
         add(messageLabel);
+        add(new ExternalLink("backLink", "http://localhost:8080/" + buildLinkParameters(), getString("back")));
     }
+    
+    /**
+     * Builds query part of url from object representation of parameters
+     * @return url query parameters
+     */
+    private String buildLinkParameters() {
+        StringBuilder result = new StringBuilder("?");
+        IRequestParameters queryParameters = ((WebRequest) RequestCycle.get().getRequest()).getQueryParameters();
+        for (String name : queryParameters.getParameterNames()) {
+            for (StringValue value : queryParameters.getParameterValues(name)) {
+                result.append(name).append("=").append(value).append("&");
+            }
+        }
+        result.deleteCharAt(result.length() - 1);
+        
+        System.out.println("Params to send:" + result.toString());
+        return result.toString();
+    }
+    
 }
