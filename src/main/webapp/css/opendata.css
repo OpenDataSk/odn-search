@@ -32,6 +32,10 @@ img             { border: 0; }
 
 #rightRow           { margin-left: 30px; width: 900px; }
 
+#result 		{ border: solid black 1px; border-collapse: collapse; }
+#result th		{ border: solid black 1px; padding: 10px; background-color: #f2f5f7; }
+#result td		{ border: solid black 1px; padding: 10px; }
+
 h1, h2, h3, h4  { color: #5b677d; font-weight: bold; }
 h1              { font-size: 15px; margin-top: 0; }
 h2              { font-size: 13px; }

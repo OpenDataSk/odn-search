@@ -97,7 +97,6 @@ public class SearchResultPage extends Panel {
             }
             result.deleteCharAt(result.length() - 1);
             
-            System.out.println("Search params: " + result.toString());
             return result.toString();
         }
 

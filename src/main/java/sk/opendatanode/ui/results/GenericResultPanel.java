@@ -21,6 +21,9 @@ public class GenericResultPanel extends Panel {
     public GenericResultPanel(String id, SolrDocument solr) {
         super(id);
 
+
+        add(new ResultMenuPanel("menu"));
+        
         //Creates empty list view
         ListView<String> listView = new ListView<String>("listView1") {
 

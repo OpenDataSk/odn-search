@@ -1,12 +1,15 @@
 <wicket:panel>
-	<table border="1">
-		<th>Name</th>
-		<th>Value</th>
-		<div wicket:id="listView1">
-			<tr>
-				<td style="padding: 10px"><span wicket:id="name"></span></td>
-				<td style="padding: 10px"><span wicket:id="value"></span></td>
-			</tr>
-		</div>
-	</table><br/>
+	<div wicket:id="menu" id="leftRow"></div>
+	<div id="rightRow">
+		<table id="result">
+			<th>Name</th>
+			<th>Value</th>
+			<div wicket:id="listView1">
+				<tr>
+					<th><span wicket:id="name"></span></th>
+					<td><span wicket:id="value"></span></td>
+				</tr>
+			</div>
+		</table><br/>
+	</div>
 </wicket:panel>

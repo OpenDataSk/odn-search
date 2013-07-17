@@ -108,25 +108,6 @@ public class ResultDocumentPage extends ContentNegotiablePage {
 
         add(resultPanel);
         add(messageLabel);
-        add(new ExternalLink("backLink", "http://localhost:8080/" + buildLinkParameters(), getString("back")));
-    }
-    
-    /**
-     * Builds query part of url from object representation of parameters
-     * @return url query parameters
-     */
-    private String buildLinkParameters() {
-        StringBuilder result = new StringBuilder("?");
-        IRequestParameters queryParameters = ((WebRequest) RequestCycle.get().getRequest()).getQueryParameters();
-        for (String name : queryParameters.getParameterNames()) {
-            for (StringValue value : queryParameters.getParameterValues(name)) {
-                result.append(name).append("=").append(value).append("&");
-            }
-        }
-        result.deleteCharAt(result.length() - 1);
-        
-        System.out.println("Params to send:" + result.toString());
-        return result.toString();
     }
     
 }
