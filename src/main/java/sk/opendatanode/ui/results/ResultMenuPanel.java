@@ -17,10 +17,13 @@ public class ResultMenuPanel extends Panel {
         
         Url url = ((WebRequest) RequestCycle.get().getRequest()).getUrl(); 
         //In case of using external reference, fill base address as needed - default set to local
+        System.out.println("URL: " + url.getPath());
         String base = url.getProtocol() + "://" + url.getHost() + ":" + url.getPort() + "/";
-        add(new ExternalLink("backLink", 
-                buildLinkParameters(base), 
-                getString("back")));
+//        add(new ExternalLink("backLink", 
+//                buildLinkParameters(base), 
+//                getString("back")));
+        add(new ExternalLink("backLink",
+        		  "javascript:history.go(-1)"));
     }
 
     
