@@ -21,7 +21,6 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PageableListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.apache.wicket.request.mapper.parameter.PageParameters.NamedPair;
 
 import sk.opendatanode.solr.SolrServerRep;
 import sk.opendatanode.solr.SolrType;
@@ -31,12 +30,10 @@ public class SearchResultPage extends Panel {
 
     private static final long serialVersionUID = 1965617550606209510L;
     private List<SolrDocument> resultList = new ArrayList<SolrDocument>();
-    private PageParameters parameters;
     
     public SearchResultPage(String id, PageParameters parameters, QueryResponse response) {
         super(id);
-
-        this.parameters = parameters;       
+    
         resultList.addAll(response.getResults());
         
         add(new FacetPanel("facet", parameters, response.getFacetQuery()));
@@ -63,8 +60,7 @@ public class SearchResultPage extends Panel {
 
             item.add(new Label("itemNumber", index + ". "));
             
-            item.add(new ExternalLink("itemUrl", "item/" + solrResultItem.get("id") + buildLinkParameters(),
-            getLabel(solrResultItem)));          
+            item.add(new ExternalLink("itemUrl", "item/" + solrResultItem.get("id"), getLabel(solrResultItem)));          
 //            item.add(new ExternalLink("itemUrl", "http://www.opendata.sk/item/" + solrResultItem.get("id"),
 //                    getLabel(solrResultItem)));
         }
@@ -84,21 +80,5 @@ public class SearchResultPage extends Panel {
             }
             return null;
         }
-        
-        /**
-         * Builds query part of url from object representation of parameters
-         * @return url query parameters
-         */
-        private String buildLinkParameters() {
-            StringBuilder result = new StringBuilder("?");
-            
-            for (NamedPair parameter : parameters.getAllNamed()) {
-                result.append(parameter.getKey()).append("=").append(parameter.getValue()).append("&");
-            }
-            result.deleteCharAt(result.length() - 1);
-            
-            return result.toString();
-        }
-
     }
 }
