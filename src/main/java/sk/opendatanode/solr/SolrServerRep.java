@@ -29,7 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SolrServerRep {
-    private static final String SOLR_REPOSITORY = "http://ohio.in.eea.sk:8080/solr/"; // TODO z properties
+    private static final String SOLR_REPOSITORY = "http://localhost:8080/solr/"; // TODO take that from properties so that it can be changed during development or deployment without the need to touch the code
     public static final int MAX_RESULT_ROWS = 1000;
     public final static int RESULTS_PER_PAGE = 20;
     private SolrServer server = null;
