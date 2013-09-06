@@ -1,4 +1,5 @@
 /* Copyright (C) 2012 Martin Virag <martin.virag@eea.sk>
+ * Copyright (C) 2013 Tomas Matula <tomas.matula@eea.sk>
  *
  * This file is part of Open Data Node.
  *
@@ -22,7 +23,7 @@ import org.apache.wicket.Page;
 import org.apache.wicket.protocol.http.WebApplication;
 
 import sk.opendatanode.ui.results.ResultDocumentPage;
-
+pre pripady, ked pracujeme na open source projekte
 /**
  * Application object for your web application. If you want to run this application without deploying, run the Start class.
  * 
