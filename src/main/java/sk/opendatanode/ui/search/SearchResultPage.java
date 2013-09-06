@@ -70,8 +70,6 @@ public class SearchResultPage extends Panel {
             item.add(new Label("itemNumber", index + ". "));
             
             item.add(new ExternalLink("itemUrl", "item/" + solrResultItem.get("id"), getLabel(solrResultItem)));          
-//            item.add(new ExternalLink("itemUrl", "http://www.opendata.sk/item/" + solrResultItem.get("id"),
-//                    getLabel(solrResultItem)));
         }
 
         private String getLabel(SolrDocument solrResultItem) {
