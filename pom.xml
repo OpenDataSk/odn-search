@@ -6,7 +6,7 @@
 	<groupId>sk.opendata</groupId>
 	<artifactId>open-data-node-wicket</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0-SNAPSHOT</version>
 	<name>Open Data Node</name>
 	<description>Proof-of-concept implementation of full text search GUI for Open Data Node.</description>
 	<url>https://github.com/OpenDataSk/odn-search</url>
