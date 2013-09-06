@@ -21,6 +21,10 @@ package sk.opendatanode.model;
 import java.util.Vector;
 
 
+/**
+ * TODO: This is a copy of file from 'open-data-node'. Create
+ * 'open-data-node-common' module so that we not need to duplicate files.
+ */
 public class ProcurementRecord extends AbstractRecord {
 	private String datanestId;
 	private String note;

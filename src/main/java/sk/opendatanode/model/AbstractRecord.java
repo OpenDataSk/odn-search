@@ -20,6 +20,9 @@ package sk.opendatanode.model;
 
 /**
  * Attributes and methods common to all records harvested by Open Data Node.
+ * 
+ * TODO: This is a copy of file from 'open-data-node'. Create
+ * 'open-data-node-common' module so that we not need to duplicate files.
  */
 public abstract class AbstractRecord {
 	

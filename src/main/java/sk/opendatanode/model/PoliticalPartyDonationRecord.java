@@ -43,6 +43,9 @@ import java.util.Date;
  *    same name, same address, etc. Now if we store only references using IDs
  *    (and assuming we properly solved the "minor problem" mentioned above, i.e.
  *    merging of data about same entity) it would become easy ID lookup.
+ * 
+ * TODO: This is a copy of file from 'open-data-node'. Create
+ * 'open-data-node-common' module so that we not need to duplicate files.
  */
 public class PoliticalPartyDonationRecord extends AbstractRecord {
 	private String datanestId;

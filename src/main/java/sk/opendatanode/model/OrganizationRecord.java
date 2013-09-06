@@ -20,6 +20,10 @@ package sk.opendatanode.model;
 
 import java.util.Date;
 
+/**
+ * TODO: This is a copy of file from 'open-data-node'. Create
+ * 'open-data-node-common' module so that we not need to duplicate files.
+ */
 public class OrganizationRecord extends AbstractRecord {
 	private String datanestId;	// TODO: consider making it an Integer
 	private String source;

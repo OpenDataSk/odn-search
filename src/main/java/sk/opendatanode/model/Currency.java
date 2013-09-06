@@ -30,6 +30,9 @@ import java.util.Map;
  * <li>formatting enum value into String</li>
  * <li>the usual Java enum use cases</li>
  * </ul>
+ * 
+ * TODO: This is a copy of file from 'open-data-node'. Create
+ * 'open-data-node-common' module so that we not need to duplicate files.
  */
 public enum Currency {
 	CZK("CZK", "Kč"),
