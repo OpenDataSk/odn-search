@@ -3,7 +3,15 @@ Things to do (a.k.a. "road map"):
 
 - tune facets: lok'n'feel is not very good
 
-- add "data from datanest" disclaimer
+- add "data from Datanest" disclaimer
 
 - add links to ORSR, Datanest, FOAF, Firemny-Register, etc. from result
   pages
+
+- content of the result pages: Original idea was to have full data in
+  Jackrabbit repository. As of now, we're not there yet so we're
+  constructing the result pages with data from SOLR which is a hack.
+  While Open Data Node is not (yet) pushing out data into Jackrabbit but
+  it is pushing data into triplestore we might be able to build
+  a front-end on top-of that using Graphity Browser
+  (https://github.com/Graphity/graphity-browser) and point there.
