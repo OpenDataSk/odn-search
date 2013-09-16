@@ -28,17 +28,28 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import sk.opendatanode.utils.ApplicationProperties;
+
 public class SolrServerRep {
-    private static final String SOLR_REPOSITORY = "http://ohio.in.eea.sk:8080/solr/"; // TODO z properties
+	public final static String SOLR_REPOSITORY_PROPERTIES_NAME = "/repo-solr.properties";
+	public final static String KEY_REPO_URL = "solr.repo.url";
     public static final int MAX_RESULT_ROWS = 1000;
     public final static int RESULTS_PER_PAGE = 20;
     private SolrServer server = null;
         
     private static SolrServerRep instance = null;
     private static Logger logger = LoggerFactory.getLogger(SolrServerRep.class);
+
+	private ApplicationProperties srProperties = null;
     
+	
     public SolrServerRep() throws IOException {
-        server = new CommonsHttpSolrServer(SOLR_REPOSITORY);
+		// load properties
+		srProperties = ApplicationProperties
+				.getInstance(SOLR_REPOSITORY_PROPERTIES_NAME);
+
+		String solrServerUrl = srProperties.getProperty(KEY_REPO_URL);
+        server = new CommonsHttpSolrServer(solrServerUrl);
         
         logger.info(server+" initialized.");
     }

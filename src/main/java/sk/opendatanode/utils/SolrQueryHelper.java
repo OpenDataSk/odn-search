@@ -190,7 +190,11 @@ public abstract class SolrQueryHelper {
         if(q.isEmpty()) {
             // chceme mat prazdny result, posielame kvoli facet informaciam
             solrQuery.setQuery("*:*");
-            solrQuery.setRows(0);
+            if(parameters.getNamedKeys().size() > 0) {
+                solrQuery.setRows(SolrServerRep.MAX_RESULT_ROWS);
+            } else {
+                solrQuery.setRows(0);
+            }
         } else {
             solrQuery.setQuery(q);
             solrQuery.setRows(SolrServerRep.MAX_RESULT_ROWS);            

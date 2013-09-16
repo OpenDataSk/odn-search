@@ -1,4 +1,4 @@
-/* Copyright (C) 2012 Martin Virag <martin.virag@eea.sk>
+/* Copyright (C) 2013 Tomas Matula <tomas.matula@eea.sk>
  *
  * This file is part of Open Data Node.
  *
@@ -16,23 +16,19 @@
  * along with Open Data Node.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package sk.opendatanode.facet;
+package sk.opendatanode.utils.http;
 
-public enum FacetItemType {
-    // vsetky datasety
-    DATA_SET,
-    // organizacie
-    LEGAL_FORM,
-    SEAT,
-    DATE_FROM,
-    DATE_TO,
-    // procurement = obstaravanie
-    YEAR,
-    PRICE,
-    CURRENCY,
-    VAT,
-    // political party donation = sponzori politickďż˝ch strďż˝n
-    PARTY,
-    VALUE;
-    // YEAR; ten je spolocny s obstaravanim
+public enum ContentTypes {
+    JSON("application/json"), HTML("text/html"), XML("application/xml"), PLAIN("text/plain");
+
+    private String label;
+
+    private ContentTypes(String label) {
+        this.label = label;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
 }
