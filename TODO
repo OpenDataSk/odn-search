@@ -18,3 +18,8 @@ Things to do (a.k.a. "road map"):
   
   This overlaps with "document presentation layer" (see TODO in
   'open-data-node') so ... unify the idea.
+
+- GUI for "advanced search" using SOLR syntax with some "prepared examples"
+  (in a form of link: after link is clicked, search term is filled in and
+  search results are updated - each field and data type should be covered, like
+  "zakladne imanie: from 10 to 100 €" etc.)
