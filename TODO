@@ -15,3 +15,6 @@ Things to do (a.k.a. "road map"):
   it is pushing data into triplestore we might be able to build
   a front-end on top-of that using Graphity Browser
   (https://github.com/Graphity/graphity-browser) and point there.
+  
+  This overlaps with "document presentation layer" (see TODO in
+  'open-data-node') so ... unify the idea.
