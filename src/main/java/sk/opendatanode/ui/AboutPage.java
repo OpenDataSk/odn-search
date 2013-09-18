@@ -18,24 +18,16 @@
 
 package sk.opendatanode.ui;
 
-import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import sk.opendatanode.ui.search.SearchQueryPage;
+public class AboutPage extends BasePage {
 
-public class BasePage extends WebPage {
+    private static final long serialVersionUID = 6953868995023867270L;
 
-	private static final long serialVersionUID = -4439295062431616848L;
-	
-	public BasePage(final PageParameters parameters) {
-		SearchQueryPage sp = new SearchQueryPage("searchPage", parameters);
-        add(sp);
+    public AboutPage(PageParameters parameters) {
+        super(parameters);
         
-		add(new BookmarkablePageLink<WebPage>("about", AboutPage.class).add(new Label("aboutLabel", getString("about"))));
-		add(new BookmarkablePageLink<WebPage>("contact", ContactPage.class).add(new Label("contactLabel", getString("contact"))));
-		
-	}
+        add(new SimpleMenuPanel("menu"));
+    }
 
 }

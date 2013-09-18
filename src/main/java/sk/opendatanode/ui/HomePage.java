@@ -1,4 +1,5 @@
 /* Copyright (C) 2012 Martin Virag <martin.virag@eea.sk>
+ * Copyright (C) 2013 Tomas Matula <tomas.matula@eea.sk>
  *
  * This file is part of Open Data Node.
  *

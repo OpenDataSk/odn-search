@@ -48,6 +48,8 @@ public class WicketApplication extends WebApplication
     protected void init() {
         super.init();
         mountPage("/item", ResultDocumentPage.class);
+        mountPage("/about", AboutPage.class);
+        mountPage("/contacts", ContactPage.class);
     }
 	
 	

@@ -18,24 +18,18 @@
 
 package sk.opendatanode.ui;
 
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.markup.html.panel.Panel;
 
-import sk.opendatanode.ui.search.SearchQueryPage;
+public class SimpleMenuPanel extends Panel {
 
-public class BasePage extends WebPage {
+    private static final long serialVersionUID = -4403569710625546728L;
 
-	private static final long serialVersionUID = -4439295062431616848L;
-	
-	public BasePage(final PageParameters parameters) {
-		SearchQueryPage sp = new SearchQueryPage("searchPage", parameters);
-        add(sp);
+    public SimpleMenuPanel(String id) {
+        super(id);
         
-		add(new BookmarkablePageLink<WebPage>("about", AboutPage.class).add(new Label("aboutLabel", getString("about"))));
-		add(new BookmarkablePageLink<WebPage>("contact", ContactPage.class).add(new Label("contactLabel", getString("contact"))));
-		
-	}
+        add(new BookmarkablePageLink<BasePage>("backLink", HomePage.class).add(new Label("backLabel", getString("back"))));
+    }
 
 }
