@@ -13,7 +13,7 @@ img             { border: 0; }
 #searchbar      { margin-top: 39px; background-image:url('../images/search_bg.png'); width: 626px; height: 69px; }
 #searchbar2     { background-image: url('../images/search_bg.png'); height: 69px; width: 626px; margin-left: 73px; margin-top: 4px;}
 #header         { padding-top: 20px; padding-left: 31px; padding-bottom: 20px; }
-#footer         { margin-top: 197px; font-size: 12px; color: #777777; }
+#footer         { margin-top: 197px; font-size: 12px; color: #777777; clear: both; background: #EEF0F2; padding: 15px; }
 #footer2        { width: 100%; font-size: 12px; color: #777777;} /* position: absolute; bottom: 0; */
 #footer2 div    { padding-left: 31px;padding-top: 15px; padding-bottom: 15px; }
 #searchbar form { padding-left: 15px; padding-top: 15px; }
