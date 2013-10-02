@@ -27,8 +27,8 @@ img             { border: 0; }
 #leftRow table th   { font-size: 11px; color: #5b677d; font-weight: bold; text-align: left; }
 #leftRow table td.spacer { font-size: 7px; }
 
-#leftRow table a:link, #leftRow table a:visited { color: #5b677d; }
-#leftRow table a:hover { text-decoration: none; }
+a:link, a:visited { color: #5b677d; }
+a:hover { text-decoration: none; }
 
 #rightRow           { margin-left: 30px; width: 900px; }
 
