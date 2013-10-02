@@ -1,5 +1,6 @@
 html, body      { margin: 0; padding: 0; height: 100%; }
 body            { background-color: #eef0f2; font-size: 13px; }
+sup             { font-size: 7px; }
 body, input     { font-family: Tahoma, Verdana, Arial; }
 input           { outline: none; }
 img             { border: 0; }
