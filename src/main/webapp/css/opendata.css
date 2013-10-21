@@ -1,5 +1,6 @@
 html, body      { margin: 0; padding: 0; height: 100%; }
 body            { background-color: #eef0f2; font-size: 13px; }
+sup             { font-size: 7px; }
 body, input     { font-family: Tahoma, Verdana, Arial; }
 input           { outline: none; }
 img             { border: 0; }
@@ -13,7 +14,7 @@ img             { border: 0; }
 #searchbar      { margin-top: 39px; background-image:url('../images/search_bg.png'); width: 626px; height: 69px; }
 #searchbar2     { background-image: url('../images/search_bg.png'); height: 69px; width: 626px; margin-left: 73px; margin-top: 4px;}
 #header         { padding-top: 20px; padding-left: 31px; padding-bottom: 20px; }
-#footer         { margin-top: 197px; font-size: 12px; color: #777777; }
+#footer         { margin-top: 197px; font-size: 12px; color: #777777; clear: both; background: #EEF0F2; padding: 15px; }
 #footer2        { width: 100%; font-size: 12px; color: #777777;} /* position: absolute; bottom: 0; */
 #footer2 div    { padding-left: 31px;padding-top: 15px; padding-bottom: 15px; }
 #searchbar form { padding-left: 15px; padding-top: 15px; }
@@ -27,8 +28,8 @@ img             { border: 0; }
 #leftRow table th   { font-size: 11px; color: #5b677d; font-weight: bold; text-align: left; }
 #leftRow table td.spacer { font-size: 7px; }
 
-#leftRow table a:link, #leftRow table a:visited { color: #5b677d; }
-#leftRow table a:hover { text-decoration: none; }
+a:link, a:visited { color: #5b677d; }
+a:hover { text-decoration: none; }
 
 #rightRow           { margin-left: 30px; width: 900px; }
 
