@@ -1,11 +1,19 @@
-/*
- * Copyright (C) 2013 Tomas Matula <tomas.matula@eea.sk> This file is part of Open Data Node. Open Data Node is free
- * software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your option) any later version. Open Data Node
- * is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should
- * have received a copy of the GNU General Public License along with Open Data Node. If not, see
- * <http://www.gnu.org/licenses/>.
+/* Copyright (C) 2013 Tomas Matula <tomas.matula@eea.sk>
+ *
+ * This file is part of Open Data Node.
+ *
+ * Open Data Node is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Open Data Node is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Open Data Node.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package sk.opendatanode.ui.results;
@@ -42,7 +50,7 @@ public class ResultDocumentPage extends ContentNegotiablePage {
 
     private static final long serialVersionUID = 1L;
     private Logger logger;
-
+    
     @Override
     public ArrayList<ContentTypes> defineAvailableContent(ArrayList<ContentTypes> contentTypes) {
         contentTypes.add(ContentTypes.JSON);
@@ -61,17 +69,17 @@ public class ResultDocumentPage extends ContentNegotiablePage {
         // param represents id for search defined in URL
         String param = "";
         String url = ((WebRequest) RequestCycle.get().getRequest()).getUrl().toString();
-
+        
         if (url.startsWith("item/")) {
             int paramIndex = url.indexOf("?");
             if (paramIndex != -1) {
                 param = url.substring("item/".length(), paramIndex);
-
+                
             } else {
                 param = url.substring("item/".length());
             }
         }
-
+        
         // Default value for no results
         Panel resultPanel = new EmptyPanel("resultPanel");
         Label messageLabel = new Label("messageLabel", "");
@@ -125,5 +133,5 @@ public class ResultDocumentPage extends ContentNegotiablePage {
         add(new BookmarkablePageLink<WebPage>("contact", ContactPage.class).add(new Label("contactLabel",
                 getString("contact"))));
     }
-
+    
 }
